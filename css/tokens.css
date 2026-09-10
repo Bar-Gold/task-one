@@ -28,6 +28,7 @@
   --slate-600: #475569;
 
   --green-800: #14532d;
+  --green-750: #147538;
   --green-700: #15803d;
   --green-600: #16a34a;
   --green-500: #22c55e;
@@ -111,7 +112,13 @@
    visitor machine is set to - and it does so with no JavaScript at all.
    ========================================================================== */
 
-/* --- 1. Light: the default ------------------------------------------------ */
+/* --- 1. Light: the default ------------------------------------------------
+   A second :root on purpose. The block above holds theme-independent
+   ingredients - palette, type scale, spacing; this one maps them to semantic
+   roles for one specific theme. Folding them together would bury the
+   distinction the whole theming system rests on. */
+
+/* stylelint-disable-next-line no-duplicate-selectors */
 :root {
   --bg: var(--ink-50);
   --bg-elev: var(--white);
@@ -123,10 +130,14 @@
   --border: var(--ink-200);
   --border-strong: var(--ink-300);
   --accent: var(--green-600);
-  --accent-hover: var(--green-700);
-  --accent-text: var(--green-700);
+
+  /* Hover brightens rather than darkens. The primary button puts near-black
+     text on the accent, so a darker hover would have cut contrast to 3.3:1 -
+     brightening takes it the other way, and matches what dark mode does. */
+  --accent-hover: var(--green-500);
+  --accent-text: var(--green-750);
   --on-accent: var(--ink-900);
-  --ring: var(--green-700);
+  --ring: var(--green-750);
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%), 0 1px 3px rgb(15 23 42 / 4%);
   --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 6%);
   --shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 14%), 0 4px 8px -4px rgb(15 23 42 / 8%);
@@ -201,10 +212,14 @@
     --border: var(--ink-200);
     --border-strong: var(--ink-300);
     --accent: var(--green-600);
-    --accent-hover: var(--green-700);
-    --accent-text: var(--green-700);
+
+    /* Hover brightens rather than darkens. The primary button puts near-black
+       text on the accent, so a darker hover would have cut contrast to 3.3:1 -
+       brightening takes it the other way, and matches what dark mode does. */
+    --accent-hover: var(--green-500);
+    --accent-text: var(--green-750);
     --on-accent: var(--ink-900);
-    --ring: var(--green-700);
+    --ring: var(--green-750);
     --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%), 0 1px 3px rgb(15 23 42 / 4%);
     --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 6%);
     --shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 14%), 0 4px 8px -4px rgb(15 23 42 / 8%);
