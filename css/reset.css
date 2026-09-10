@@ -1,7 +1,4 @@
-/* ==========================================================================
-   reset.css - a small, modern baseline
-   Trimmed to only what this page actually needs.
-   ========================================================================== */
+/* Basic reset */
 
 *,
 *::before,
@@ -10,8 +7,7 @@
 }
 
 html {
-  /* iOS Safari still only understands the prefixed form, and without it the
-     browser inflates text in landscape. Both are kept deliberately. */
+  /* iOS Safari only knows the prefixed version */
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -63,8 +59,7 @@ p {
   text-wrap: pretty;
 }
 
-/* Anyone who asks for less motion gets less motion - everywhere, not just
-   on the animations we happened to remember. */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

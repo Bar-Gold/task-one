@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>בר גולדשטיין | DevOps Engineer וסטודנט למדעי המחשב</title>
-  <meta name="description" content="כרטיס ביקור דיגיטלי של בר גולדשטיין - סטודנט למדעי המחשב במכללה למנהל ומהנדס DevOps. תשתיות, אוטומציה, קונטיינרים ותהליכי CI/CD.">
+  <meta name="description" content="כרטיס הביקור של בר גולדשטיין, סטודנט למדעי המחשב ו-DevOps Engineer.">
   <meta name="author" content="בר גולדשטיין">
 
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
@@ -15,7 +15,7 @@
 
   <meta property="og:type" content="profile">
   <meta property="og:title" content="בר גולדשטיין | DevOps Engineer">
-  <meta property="og:description" content="כרטיס ביקור דיגיטלי - תשתיות, אוטומציה, קונטיינרים ותהליכי CI/CD.">
+  <meta property="og:description" content="סטודנט למדעי המחשב ו-DevOps Engineer.">
   <meta property="og:image" content="assets/profile-large.jpg">
   <meta property="og:locale" content="he_IL">
 
@@ -29,9 +29,7 @@
 <body>
   <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
 
-  <!-- The one control behind the whole theme system. It lives outside .page so
-       that a plain sibling selector can re-map the colour tokens - no script,
-       no duplicated markup, and it still works if :has() is unsupported. -->
+  <!-- Theme switch. Must sit outside .page so the CSS can reach the page with ~ -->
   <input type="checkbox" id="theme-toggle" class="theme-switch__input">
 
   <div class="page">
@@ -76,12 +74,10 @@
 
     <main id="main" class="main">
 
-      <!-- ================= HERO ================= -->
+      <!-- Hero -->
       <section class="hero" id="top" aria-labelledby="hero-name">
         <div class="hero__inner">
           <div class="hero__text">
-            <p class="hero__eyebrow"><span dir="ltr">$ whoami</span></p>
-
             <h1 class="hero__name" id="hero-name">בר גולדשטיין</h1>
             <p class="hero__name-latin"><span dir="ltr">Bar Goldstein</span></p>
 
@@ -92,13 +88,12 @@
             </p>
 
             <p class="hero__tagline">
-              בונה את הדרך שבה קוד מגיע מהמחשב הנייד ועד לפרודקשן — אוטומציה,
-              קונטיינרים ותשתית שאפשר לסמוך עליה.
+              מתמחה באוטומציה, קונטיינרים ותשתיות ענן.
             </p>
 
             <p class="status-chip">
               <span class="status-chip__dot" aria-hidden="true"></span>
-              פתוח להתמחות או למשרת ג׳וניור בתחום ה־DevOps
+              פתוח להתמחות או למשרת ג׳וניור
             </p>
 
             <div class="hero__actions">
@@ -125,41 +120,32 @@
                  sizes="(min-width: 62rem) 22rem, (min-width: 48rem) 18rem, 13rem"
                  width="800" height="800"
                  fetchpriority="high"
-                 alt="בר גולדשטיין — צילום פנים, מרכיב משקפיים וחולצה לבנה">
-            <figcaption class="visually-hidden">תמונת הפרופיל של בר גולדשטיין</figcaption>
+                 alt="בר גולדשטיין">
           </figure>
         </div>
       </section>
 
-      <!-- ================= ABOUT ================= -->
+      <!-- About -->
       <section class="section" id="about" aria-labelledby="about-title">
         <div class="section__inner section__inner--narrow">
-          <p class="section__kicker"><span dir="ltr">01</span> — אודות</p>
           <h2 class="section__title" id="about-title">קצת עליי</h2>
 
           <div class="prose">
             <p>
-              אני סטודנט שנה ב׳ למדעי המחשב במכללה למנהל, ומה שמושך אותי באמת הוא
-              מה שקורה <em>אחרי</em> שהקוד נכתב: איך הוא נארז, נבדק, נפרס ומנוטר.
-              משם הגעתי לעולם ה־DevOps, ומאז אני לומד ובונה בו כל הזמן.
+              אני סטודנט שנה ב׳ למדעי המחשב במכללה למנהל. מה שמעניין אותי הוא מה שקורה לקוד אחרי שכותבים אותו: איך בונים אותו, בודקים אותו ומעלים אותו לאוויר. ככה הגעתי ל-DevOps.
             </p>
             <p>
-              בזמני הפנוי אני מקים סביבות מעבדה ביתיות מעל Docker ו־Kubernetes,
-              כותב פייפליינים אוטומטיים ב־GitHub Actions, מנהל תשתית כקוד עם
-              Terraform ו־Ansible, ומחבר לזה שכבת ניטור מבוססת Prometheus ו־Grafana.
-              אני אוהב לקחת תהליך ידני וחוזר על עצמו ולהפוך אותו למשהו שרץ לבד,
-              עם לוגים ברורים והתראות כשמשהו משתבש.
+              בבית אני מקים סביבות לימוד על Docker ו-Kubernetes, כותב פייפליינים ב-GitHub Actions ומתנסה בכלים כמו Terraform ו-Ansible. בדרך כלל אני מוסיף גם ניטור עם Prometheus ו-Grafana, כדי לראות מה באמת קורה שם.
             </p>
             <p>
-              אני מחפש התמחות או משרת ג׳וניור שבה אוכל לתרום לצוות תשתיות, ללמוד
-              ממהנדסים מנוסים, ולהמשיך לגדול לכיוון הנדסת פלטפורמה.
+              אני מחפש התמחות או משרת ג׳וניור בתחום, כדי ללמוד מצוות מנוסה ולצבור ניסיון אמיתי.
             </p>
           </div>
 
           <dl class="facts">
             <div class="facts__item">
               <dt class="facts__label">לימודים</dt>
-              <dd class="facts__value">מדעי המחשב, המכללה למנהל — שנה ב׳</dd>
+              <dd class="facts__value">מדעי המחשב, המכללה למנהל, שנה ב׳</dd>
             </div>
             <div class="facts__item">
               <dt class="facts__label">התמחות</dt>
@@ -167,23 +153,22 @@
             </div>
             <div class="facts__item">
               <dt class="facts__label">שפות</dt>
-              <dd class="facts__value">עברית — שפת אם · אנגלית — רמה גבוהה</dd>
+              <dd class="facts__value">עברית שפת אם, אנגלית ברמה טובה</dd>
             </div>
             <div class="facts__item">
               <dt class="facts__label">מיקום</dt>
-              <dd class="facts__value">ישראל · זמין גם לעבודה היברידית</dd>
+              <dd class="facts__value">ישראל, זמין גם לעבודה היברידית</dd>
             </div>
           </dl>
         </div>
       </section>
 
-      <!-- ================= SKILLS ================= -->
+      <!-- Skills -->
       <section class="section section--alt" id="skills" aria-labelledby="skills-title">
         <div class="section__inner">
-          <p class="section__kicker"><span dir="ltr">02</span> — כישורים</p>
-          <h2 class="section__title" id="skills-title">ארגז הכלים שלי</h2>
+          <h2 class="section__title" id="skills-title">כישורים טכניים</h2>
           <p class="section__lede">
-            הכלים שאני עובד איתם ביום־יום, מסודרים לפי השלב שבו הם נכנסים לתמונה.
+            הכלים שאני עובד איתם.
           </p>
 
           <ul class="skills">
@@ -307,23 +292,20 @@
         </div>
       </section>
 
-      <!-- ================= PROJECTS ================= -->
+      <!-- Projects -->
       <section class="section" id="projects" aria-labelledby="projects-title">
         <div class="section__inner">
-          <p class="section__kicker"><span dir="ltr">03</span> — פרויקטים</p>
-          <h2 class="section__title" id="projects-title">על מה עבדתי</h2>
+          <h2 class="section__title" id="projects-title">פרויקטים</h2>
           <p class="section__lede">
-            פרויקטים אישיים ומעבדתיים שבהם תרגלתי את מחזור החיים המלא — מבנייה ועד ניטור.
+            כמה פרויקטים אישיים שעבדתי עליהם.
           </p>
 
           <ul class="projects">
             <li class="project-card">
               <p class="project-card__index" dir="ltr">01</p>
-              <h3 class="project-card__title">פייפליין <span dir="ltr">CI/CD</span> מקצה לקצה</h3>
+              <h3 class="project-card__title">פייפליין <span dir="ltr">CI/CD</span></h3>
               <p class="project-card__body">
-                פייפליין מלא שמריץ בדיקות אוטומטיות בכל בקשת מיזוג, בונה אימג׳
-                Docker רב־שלבי, דוחף אותו ל־Registry ומבצע פריסה אוטומטית לסביבת
-                בדיקות — כולל שער איכות שחוסם מיזוג כשהבדיקות נכשלות.
+                פייפליין שמריץ בדיקות בכל בקשת מיזוג, בונה אימג׳ Docker ודוחף אותו ל-Registry. אם הבדיקות נכשלות, המיזוג נחסם.
               </p>
               <ul class="tags">
                 <li class="tag" dir="ltr">GitHub Actions</li>
@@ -334,11 +316,9 @@
 
             <li class="project-card">
               <p class="project-card__index" dir="ltr">02</p>
-              <h3 class="project-card__title">פריסת מיקרו־שירותים ל־<span dir="ltr">Kubernetes</span></h3>
+              <h3 class="project-card__title">פריסה ל-<span dir="ltr">Kubernetes</span></h3>
               <p class="project-card__body">
-                אריזה של אפליקציית מיקרו־שירותים ל־Helm charts ופריסה לאשכול
-                מקומי: הגדרת Ingress, בדיקות בריאות, מגבלות משאבים והתאמת קנה
-                מידה אוטומטית לפי עומס.
+                אריזה של אפליקציה ל-Helm charts ופריסה לאשכול מקומי, כולל הגדרת Ingress, בדיקות בריאות ומגבלות משאבים.
               </p>
               <ul class="tags">
                 <li class="tag" dir="ltr">Kubernetes</li>
@@ -351,9 +331,7 @@
               <p class="project-card__index" dir="ltr">03</p>
               <h3 class="project-card__title">סביבת ענן כקוד</h3>
               <p class="project-card__body">
-                הקמת סביבת ענן שלמה מקוד בלבד — רשתות, מכונות וקבוצות אבטחה —
-                עם מודולים לשימוש חוזר, ניהול <span dir="ltr">state</span> מרוחק
-                והקשחה ראשונית של השרתים באמצעות Ansible.
+                הקמת סביבת ענן מתוך קוד: רשתות, מכונות וקבוצות אבטחה. ה-<span dir="ltr">state</span> מנוהל מרחוק, וההגדרות הראשוניות של השרתים נעשות עם Ansible.
               </p>
               <ul class="tags">
                 <li class="tag" dir="ltr">Terraform</li>
@@ -364,11 +342,9 @@
 
             <li class="project-card">
               <p class="project-card__index" dir="ltr">04</p>
-              <h3 class="project-card__title">מערך ניטור והתראות</h3>
+              <h3 class="project-card__title">ניטור והתראות</h3>
               <p class="project-card__body">
-                סטאק ניטור שאוסף מטריקות ממכונות ומקונטיינרים, מציג אותן
-                בדשבורדים של Grafana, ושולח התראות על חריגות בזמינות או בצריכת
-                משאבים לפני שהמשתמשים מרגישים.
+                איסוף מטריקות ממכונות ומקונטיינרים, הצגה בדשבורדים של Grafana והתראות כשמשהו חורג.
               </p>
               <ul class="tags">
                 <li class="tag" dir="ltr">Prometheus</li>
@@ -383,20 +359,18 @@
               <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"></path>
               </svg>
-              <span>עוד קוד בפרופיל ה־<span dir="ltr">GitHub</span> שלי</span>
+              <span>עוד קוד ב-<span dir="ltr">GitHub</span> שלי</span>
             </a>
           </p>
         </div>
       </section>
 
-      <!-- ================= CONTACT ================= -->
+      <!-- Contact -->
       <section class="section section--alt" id="contact" aria-labelledby="contact-title">
         <div class="section__inner section__inner--narrow">
-          <p class="section__kicker"><span dir="ltr">04</span> — יצירת קשר</p>
-          <h2 class="section__title" id="contact-title">נעים להכיר — בואו נדבר</h2>
+          <h2 class="section__title" id="contact-title">יצירת קשר</h2>
           <p class="section__lede">
-            מחפשים מתמחה או ג׳וניור לצוות תשתיות? אשמח לשמוע. הדרך המהירה ביותר
-            אליי היא מייל או וואטסאפ.
+            אפשר לתפוס אותי במייל או בטלפון.
           </p>
 
           <ul class="contact">
@@ -424,7 +398,7 @@
                 </span>
                 <span class="contact__body">
                   <span class="contact__label">טלפון</span>
-                  <span class="contact__value" dir="ltr">050&#8209;329&#8209;8382</span>
+                  <span class="contact__value" dir="ltr">050-329-8382</span>
                 </span>
               </a>
             </li>
@@ -465,10 +439,7 @@
     <footer class="site-footer">
       <div class="site-footer__inner">
         <p class="site-footer__copy">
-          <span dir="ltr">&copy; 2026</span> בר גולדשטיין — כרטיס ביקור דיגיטלי
-        </p>
-        <p class="site-footer__built">
-          נבנה ב־<span dir="ltr">HTML</span> ו־<span dir="ltr">CSS</span> בלבד, ללא <span dir="ltr">JavaScript</span>
+          <span dir="ltr">&copy; 2026</span> בר גולדשטיין
         </p>
       </div>
     </footer>
