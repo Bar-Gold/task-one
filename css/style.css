@@ -1,0 +1,963 @@
+/* ==========================================================================
+   style.css - layout and components.
+
+   Mobile-first. Every colour, size, radius and duration comes from
+   tokens.css, so switching theme changes one set of variables and nothing
+   else. Logical properties (inline-start / inline-end) are used throughout
+   rather than left / right, which is what makes the RTL layout mirror
+   correctly without a second stylesheet.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Page shell
+   -------------------------------------------------------------------------- */
+
+html {
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* .page carries the theme. Everything visible lives inside it, which is what
+   lets the sibling selector in tokens.css re-theme the whole document. */
+.page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+@supports (min-height: 100dvh) {
+  .page {
+    min-height: 100dvh;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Utilities
+   -------------------------------------------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+
+  /* Deliberately drawn from the raw palette rather than the theme tokens:
+     this element sits outside .page, and a green pill with near-black text
+     is legible against either theme. */
+  background-color: var(--green-500);
+  color: var(--ink-950);
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+  transform: translateY(-160%);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: var(--border-thick) solid var(--ink-950);
+  outline-offset: 2px;
+}
+
+/* One consistent focus ring for every interactive element on the page. */
+a:focus-visible,
+label:focus-visible {
+  outline: var(--border-thick) solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* The checkbox itself is off-screen but still focusable, so keyboard users
+   can reach it with Tab and flip it with Space. When it has focus the ring
+   is drawn on its visible label instead. */
+.theme-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.theme-switch__input:focus-visible ~ .page .theme-switch__track {
+  outline: var(--border-thick) solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  border-block-end: var(--border-thin) solid var(--border);
+  background-color: var(--bg);
+  background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
+}
+
+@supports not (backdrop-filter: blur(12px)) {
+  .site-header {
+    background-color: var(--bg);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: min(100%, var(--container));
+  min-height: var(--header-h);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--space-2);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  border-radius: var(--radius-sm);
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.brand__mark svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.brand__text {
+  font-size: var(--fs-sm);
+}
+
+.site-nav {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.site-nav__list {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.site-nav__link {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--fg-muted);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.site-nav__link:hover {
+  color: var(--fg);
+  background-color: var(--bg-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   4. Theme switch
+   -------------------------------------------------------------------------- */
+
+.theme-switch {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.theme-switch__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 3.5rem;
+  height: 1.875rem;
+  padding-inline: 0.4375rem;
+  border: var(--border-thin) solid var(--border-strong);
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
+}
+
+.theme-switch__icon {
+  position: relative;
+  z-index: 1;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--fg-subtle);
+  transition: color var(--dur-base) var(--ease);
+}
+
+.theme-switch__thumb {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-50%);
+  transition:
+    inset-inline-start var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease);
+}
+
+/* Thumb sits over the sun by default and slides across to the moon when the
+   visitor flips the switch. Using inset-inline-start rather than translateX
+   means it slides the correct way in an RTL document. */
+#theme-toggle:checked ~ .page .theme-switch__thumb {
+  inset-inline-start: 1.875rem;
+}
+
+.theme-switch:hover .theme-switch__track {
+  border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons and chips
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.btn__icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: 0 0 auto;
+}
+
+.btn--primary {
+  background-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--accent-hover);
+  box-shadow: var(--shadow-md), var(--glow);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background-color: var(--bg-elev);
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-start: var(--space-5);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-full);
+  background-color: var(--bg-elev);
+  color: var(--fg-muted);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.status-chip__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-color: var(--accent);
+  animation: pulse 2.4s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 0.3125rem color-mix(in srgb, var(--accent) 0%, transparent);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 7vw, 5rem) var(--section-y);
+  background-image:
+    var(--hero-wash),
+    repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px 5rem),
+    repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px 5rem);
+}
+
+.hero__inner {
+  display: grid;
+  gap: clamp(1.75rem, 5vw, 3.5rem);
+  width: min(100%, var(--container));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--accent-text);
+  letter-spacing: var(--tracking-wide);
+}
+
+.hero__name {
+  margin-block-start: var(--space-2);
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hero__name-latin {
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  font-weight: 400;
+  color: var(--fg-subtle);
+  letter-spacing: var(--tracking-wide);
+}
+
+.hero__role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-4);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* A drawn separator instead of a typed one: a bar character between an LTR
+   and an RTL run is exactly the kind of thing bidi reordering moves to the
+   wrong side of the line. */
+.hero__role-sep {
+  width: var(--border-thick);
+  height: 1.25em;
+  border-radius: var(--radius-full);
+  background-color: var(--accent);
+}
+
+.hero__tagline {
+  max-width: 42ch;
+  margin-block-start: var(--space-4);
+  font-size: var(--fs-md);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block-start: var(--space-6);
+}
+
+.hero__figure {
+  order: -1;
+  margin: 0;
+  justify-self: center;
+}
+
+.hero__photo {
+  width: 13rem;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: var(--border-thin) solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-subtle);
+  box-shadow: var(--shadow-lg), var(--glow);
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
+}
+
+.hero__photo:hover {
+  transform: translateY(-0.25rem) scale(1.01);
+  border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   7. Sections
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding-block: var(--section-y);
+  border-block-start: var(--border-thin) solid var(--border);
+  transition: border-color var(--dur-base) var(--ease);
+}
+
+.section--alt {
+  background-color: var(--bg-subtle);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
+}
+
+.section__inner {
+  width: min(100%, var(--container));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section__inner--narrow {
+  width: min(100%, var(--container-narrow));
+}
+
+.section__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--accent-text);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.section__title {
+  margin-block-start: var(--space-2);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.section__lede {
+  max-width: 56ch;
+  margin-block-start: var(--space-3);
+  font-size: var(--fs-md);
+  color: var(--fg-muted);
+}
+
+/* --------------------------------------------------------------------------
+   8. About
+   -------------------------------------------------------------------------- */
+
+.prose {
+  margin-block-start: var(--space-5);
+  max-width: 68ch;
+}
+
+.prose p + p {
+  margin-block-start: var(--space-4);
+}
+
+.prose p {
+  font-size: var(--fs-md);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-muted);
+}
+
+.prose em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-7);
+}
+
+.facts__item {
+  padding: var(--space-4);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-elev);
+  border-inline-start: var(--border-thick) solid var(--accent);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease);
+}
+
+.facts__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fg-subtle);
+  letter-spacing: var(--tracking-wide);
+}
+
+.facts__value {
+  margin-block-start: var(--space-1);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/* --------------------------------------------------------------------------
+   9. Skills
+   -------------------------------------------------------------------------- */
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-7);
+}
+
+.skill-card {
+  padding: var(--space-5);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-elev);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease);
+}
+
+.skill-card:hover {
+  transform: translateY(-0.25rem);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.skill-card__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  color: var(--accent-text);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.skill-card__icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.skill-card__title {
+  margin-block-start: var(--space-4);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+}
+
+/* --------------------------------------------------------------------------
+   10. Tags
+   -------------------------------------------------------------------------- */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-block-start: var(--space-4);
+}
+
+.tag {
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.section--alt .tag {
+  background-color: var(--bg-inset);
+}
+
+/* --------------------------------------------------------------------------
+   11. Projects
+   -------------------------------------------------------------------------- */
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-7);
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-elev);
+  overflow: hidden;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease);
+}
+
+/* A hairline that grows along the top edge on hover - the only decoration
+   on the card, and it costs one transform. */
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: var(--border-thick);
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.project-card:hover {
+  transform: translateY(-0.25rem);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.project-card:hover::before {
+  transform: scaleX(1);
+}
+
+.project-card__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--accent-text);
+  letter-spacing: var(--tracking-wide);
+}
+
+.project-card__title {
+  margin-block-start: var(--space-2);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+}
+
+.project-card__body {
+  margin-block-start: var(--space-3);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-muted);
+}
+
+.project-card .tags {
+  margin-block-start: auto;
+  padding-block-start: var(--space-4);
+}
+
+.projects__more {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   12. Contact
+   -------------------------------------------------------------------------- */
+
+.contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-7);
+}
+
+.contact__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 100%;
+  padding: var(--space-4);
+  border: var(--border-thin) solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-elev);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease);
+}
+
+.contact__link:hover {
+  transform: translateY(-0.125rem);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.contact__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  color: var(--accent-text);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.contact__icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.contact__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact__label {
+  font-size: var(--fs-xs);
+  color: var(--fg-subtle);
+}
+
+.contact__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--fg);
+
+  /* Long addresses must shrink the text, never the layout. */
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------------
+   13. Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  padding-block: var(--space-6);
+  border-block-start: var(--border-thin) solid var(--border);
+  transition: border-color var(--dur-base) var(--ease);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: min(100%, var(--container));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  font-size: var(--fs-xs);
+  color: var(--fg-subtle);
+}
+
+.site-footer__built {
+  font-family: var(--font-mono);
+}
+
+/* --------------------------------------------------------------------------
+   14. Responsive
+   Mobile-first: the rules above are the small-screen layout, and each query
+   below only adds what the extra width makes possible.
+   -------------------------------------------------------------------------- */
+
+/* Very small phones: the brand word gives up its space to the nav. */
+@media (max-width: 29.99em) {
+  .brand__text {
+    display: none;
+  }
+}
+
+/* Large phones and up. */
+@media (min-width: 30em) {
+  .hero__photo {
+    width: 15rem;
+  }
+}
+
+/* Tablets: the hero becomes two columns, photo alongside the text. */
+@media (min-width: 48em) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .hero__figure {
+    order: 0;
+    justify-self: end;
+  }
+
+  .hero__photo {
+    width: 17rem;
+  }
+
+  .site-header__inner {
+    gap: var(--space-5);
+  }
+}
+
+/* Laptops. */
+@media (min-width: 62em) {
+  .hero {
+    padding-block: clamp(4rem, 8vw, 7rem) var(--section-y);
+  }
+
+  .hero__photo {
+    width: 21rem;
+  }
+
+  .projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Wide desktops: hold the measure rather than letting lines run on. */
+@media (min-width: 90em) {
+  .skills {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .contact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Fine-pointer devices only: hover lifts are pleasant with a mouse and
+   sticky-feeling on touch. */
+@media (hover: none) {
+  .btn:hover,
+  .skill-card:hover,
+  .project-card:hover,
+  .contact__link:hover,
+  .hero__photo:hover {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   15. Print - a business card should survive being printed.
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .site-header,
+  .skip-link,
+  .projects__more,
+  .theme-switch {
+    display: none;
+  }
+
+  .page {
+    background: #fff;
+    color: #000;
+  }
+
+  .hero {
+    background-image: none;
+    padding-block: 0;
+  }
+
+  .section {
+    padding-block: 1rem;
+    break-inside: avoid;
+  }
+
+  .skill-card,
+  .project-card,
+  .contact__link {
+    border: 1px solid #999;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
