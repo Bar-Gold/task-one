@@ -1,15 +1,7 @@
-/* ==========================================================================
-   tokens.css - the single source of truth for the design system.
-
-   Nothing in style.css hard-codes a colour, a size or a duration; every
-   value below is referenced through a custom property. That is what keeps
-   the light and dark themes genuinely consistent instead of merely similar.
-   ========================================================================== */
+/* Design tokens: colors, type, spacing. Nothing below hard-codes a value. */
 
 :root {
-  /* ---- Raw palette -------------------------------------------------------
-     Theme-independent ingredients. The semantic tokens further down decide
-     which of these a given theme actually uses. */
+  /* Color palette */
   --ink-950: #080d18;
   --ink-900: #0f172a;
   --ink-850: #16203a;
@@ -35,14 +27,11 @@
   --green-400: #4ade80;
   --green-300: #86efac;
 
-  /* ---- Typography --------------------------------------------------------
-     Two families: IBM Plex Sans Hebrew carries the Hebrew UI, JetBrains Mono
-     marks anything that is literally a piece of technology. */
+  /* Fonts */
   --font-sans: "IBM Plex Sans Hebrew", "Segoe UI", "Noto Sans Hebrew", arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", consolas, monospace;
 
-  /* Fluid scale - every step interpolates between its mobile and desktop
-     size, so intermediate widths are handled too, not just the breakpoints. */
+  /* Sizes grow with the screen */
   --fs-xs: 0.8125rem;
   --fs-sm: 0.875rem;
   --fs-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
@@ -73,7 +62,7 @@
   --space-9: 6rem;
   --section-y: clamp(3.5rem, 8vw, 6.5rem);
 
-  /* ---- Shape ------------------------------------------------------------- */
+  /* Shape */
   --radius-sm: 0.375rem;
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
@@ -83,13 +72,13 @@
   --border-thin: 1px;
   --border-thick: 2px;
 
-  /* ---- Layout ------------------------------------------------------------ */
+  /* Layout */
   --container: 72rem;
   --container-narrow: 52rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --header-h: 4rem;
 
-  /* ---- Motion ------------------------------------------------------------ */
+  /* Motion */
   --dur-fast: 150ms;
   --dur-base: 250ms;
   --dur-slow: 420ms;
@@ -97,26 +86,11 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ==========================================================================
-   THEMING
+/* Theming.
+   The OS preference sets the default theme, and the toggle flips it.
+   That is why :checked appears both inside and outside the media query. */
 
-   The page has two complete colour schemes. Which one you get is decided in
-   two steps:
-
-     1. The operating system preference supplies the default.
-     2. The toggle in the header inverts that default.
-
-   Step 2 is what the blocks below encode: the checked state maps to the dark
-   set when the OS asked for light, and to the light set when the OS asked
-   for dark. So the button always genuinely flips the theme, whatever the
-   visitor machine is set to - and it does so with no JavaScript at all.
-   ========================================================================== */
-
-/* --- 1. Light: the default ------------------------------------------------
-   A second :root on purpose. The block above holds theme-independent
-   ingredients - palette, type scale, spacing; this one maps them to semantic
-   roles for one specific theme. Folding them together would bury the
-   distinction the whole theming system rests on. */
+/* Light theme (default) */
 
 /* stylelint-disable-next-line no-duplicate-selectors */
 :root {
@@ -131,9 +105,7 @@
   --border-strong: var(--ink-300);
   --accent: var(--green-600);
 
-  /* Hover brightens rather than darkens. The primary button puts near-black
-     text on the accent, so a darker hover would have cut contrast to 3.3:1 -
-     brightening takes it the other way, and matches what dark mode does. */
+  /* Lighter on hover, so the dark label stays readable */
   --accent-hover: var(--green-500);
   --accent-text: var(--green-750);
   --on-accent: var(--ink-900);
@@ -148,7 +120,7 @@
   color-scheme: light;
 }
 
-/* --- 2. Dark: when the OS asks for it ------------------------------------- */
+/* Dark theme, when the OS asks for it */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: var(--ink-950);
@@ -176,7 +148,7 @@
   }
 }
 
-/* --- 3. The toggle inverts whichever default applied ---------------------- */
+/* The toggle flips whichever theme applied */
 #theme-toggle:checked ~ .page {
   --bg: var(--ink-950);
   --bg-elev: var(--ink-850);
@@ -213,9 +185,7 @@
     --border-strong: var(--ink-300);
     --accent: var(--green-600);
 
-    /* Hover brightens rather than darkens. The primary button puts near-black
-       text on the accent, so a darker hover would have cut contrast to 3.3:1 -
-       brightening takes it the other way, and matches what dark mode does. */
+    /* Lighter on hover, so the dark label stays readable */
     --accent-hover: var(--green-500);
     --accent-text: var(--green-750);
     --on-accent: var(--ink-900);
@@ -229,10 +199,7 @@
   }
 }
 
-/* --- 4. Keep the UA in step with the live theme ---------------------------
-   Scrollbars, form controls and the canvas behind the page follow
-   color-scheme. :has() is a progressive enhancement: without it the page is
-   still fully themed by the rules above, only the browser chrome lags. */
+/* Keeps scrollbars and form controls in the right theme */
 :root:has(#theme-toggle:checked) {
   color-scheme: dark;
 }

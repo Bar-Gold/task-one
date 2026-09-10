@@ -1,16 +1,8 @@
-/* ==========================================================================
-   style.css - layout and components.
+/* Layout and components. Mobile first.
+   Uses inline-start/inline-end instead of left/right, so the whole layout
+   mirrors for RTL without a second stylesheet. */
 
-   Mobile-first. Every colour, size, radius and duration comes from
-   tokens.css, so switching theme changes one set of variables and nothing
-   else. Logical properties (inline-start / inline-end) are used throughout
-   rather than left / right, which is what makes the RTL layout mirror
-   correctly without a second stylesheet.
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   1. Page shell
-   -------------------------------------------------------------------------- */
+/* 1. Page shell */
 
 html {
   background-color: var(--bg);
@@ -25,8 +17,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* .page carries the theme. Everything visible lives inside it, which is what
-   lets the sibling selector in tokens.css re-theme the whole document. */
+/* .page holds the theme variables */
 .page {
   min-height: 100vh;
   background-color: var(--bg);
@@ -42,9 +33,7 @@ body {
   }
 }
 
-/* --------------------------------------------------------------------------
-   2. Utilities
-   -------------------------------------------------------------------------- */
+/* 2. Utilities */
 
 .visually-hidden {
   position: absolute;
@@ -66,9 +55,7 @@ body {
   padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-md);
 
-  /* Deliberately drawn from the raw palette rather than the theme tokens:
-     this element sits outside .page, and a green pill with near-black text
-     is legible against either theme. */
+  /* Palette colors, not theme ones: this sits outside .page */
   background-color: var(--green-500);
   color: var(--ink-950);
   font-weight: 600;
@@ -83,16 +70,14 @@ body {
   outline-offset: 2px;
 }
 
-/* One consistent focus ring for every interactive element on the page. */
+/* Focus ring */
 a:focus-visible,
 label:focus-visible {
   outline: var(--border-thick) solid var(--ring);
   outline-offset: 3px;
 }
 
-/* The checkbox itself is off-screen but still focusable, so keyboard users
-   can reach it with Tab and flip it with Space. When it has focus the ring
-   is drawn on its visible label instead. */
+/* Hidden but still focusable, so Tab and Space work */
 .theme-switch__input {
   position: absolute;
   width: 1px;
@@ -107,9 +92,7 @@ label:focus-visible {
   outline-offset: 3px;
 }
 
-/* --------------------------------------------------------------------------
-   3. Header
-   -------------------------------------------------------------------------- */
+/* 3. Header */
 
 .site-header {
   position: sticky;
@@ -181,10 +164,8 @@ label:focus-visible {
   display: none;
 }
 
-/* flex-start while the row can overflow: a flex container justified to the
-   end pushes its overflow past the start edge, where it cannot be scrolled
-   back into view. From tablet up the row always fits, so end-justifying it
-   against the theme switch is safe. */
+/* flex-start while it can overflow: flex-end would push the first links
+   off the start edge where they cannot be scrolled back. */
 .site-nav__list {
   display: flex;
   justify-content: flex-start;
@@ -210,9 +191,7 @@ label:focus-visible {
   background-color: var(--bg-subtle);
 }
 
-/* --------------------------------------------------------------------------
-   4. Theme switch
-   -------------------------------------------------------------------------- */
+/* 4. Theme switch */
 
 .theme-switch {
   flex: 0 0 auto;
@@ -252,8 +231,7 @@ label:focus-visible {
     background-color var(--dur-base) var(--ease);
 }
 
-/* Both icons occupy the same grid cell and cross-fade, so the thumb always
-   shows exactly one - the theme currently in effect. */
+/* Both icons share one cell and cross-fade */
 .theme-switch__icon {
   grid-area: 1 / 1;
   width: 0.875rem;
@@ -265,9 +243,7 @@ label:focus-visible {
   opacity: 0;
 }
 
-/* The thumb slides from the sun end to the moon end. inset-inline-start
-   rather than translateX means it travels the correct way in an RTL
-   document. */
+/* inset-inline-start, not translateX, so it slides the right way in RTL */
 #theme-toggle:checked ~ .page .theme-switch__thumb {
   inset-inline-start: 1.875rem;
 }
@@ -284,9 +260,7 @@ label:focus-visible {
   border-color: var(--accent);
 }
 
-/* --------------------------------------------------------------------------
-   5. Buttons and chips
-   -------------------------------------------------------------------------- */
+/* 5. Buttons and chips */
 
 .btn {
   display: inline-flex;
@@ -380,9 +354,7 @@ label:focus-visible {
   }
 }
 
-/* --------------------------------------------------------------------------
-   6. Hero
-   -------------------------------------------------------------------------- */
+/* 6. Hero */
 
 .hero {
   position: relative;
@@ -402,13 +374,6 @@ label:focus-visible {
   padding-inline: var(--gutter);
 }
 
-.hero__eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  color: var(--accent-text);
-  letter-spacing: var(--tracking-wide);
-}
 
 .hero__name {
   margin-block-start: var(--space-2);
@@ -427,8 +392,7 @@ label:focus-visible {
   letter-spacing: var(--tracking-wide);
 }
 
-/* On a phone the two halves of the role stack, and the separator - which
-   only makes sense between two items on one line - is withdrawn. */
+/* Stacks on narrow screens, separator hidden */
 .hero__role {
   display: flex;
   flex-direction: column;
@@ -440,9 +404,7 @@ label:focus-visible {
   color: var(--fg);
 }
 
-/* A drawn separator instead of a typed one: a bar character between an LTR
-   and an RTL run is exactly the kind of thing bidi reordering moves to the
-   wrong side of the line. */
+/* Drawn, not typed: a bar character lands on the wrong side in bidi text */
 .hero__role-sep {
   display: none;
   width: var(--border-thick);
@@ -491,9 +453,7 @@ label:focus-visible {
   border-color: var(--accent);
 }
 
-/* --------------------------------------------------------------------------
-   7. Sections
-   -------------------------------------------------------------------------- */
+/* 7. Sections */
 
 .section {
   padding-block: var(--section-y);
@@ -518,14 +478,6 @@ label:focus-visible {
   width: min(100%, var(--container-narrow));
 }
 
-.section__kicker {
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  color: var(--accent-text);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-}
 
 .section__title {
   margin-block-start: var(--space-2);
@@ -542,9 +494,7 @@ label:focus-visible {
   color: var(--fg-muted);
 }
 
-/* --------------------------------------------------------------------------
-   8. About
-   -------------------------------------------------------------------------- */
+/* 8. About */
 
 .prose {
   margin-block-start: var(--space-5);
@@ -599,9 +549,7 @@ label:focus-visible {
   color: var(--fg);
 }
 
-/* --------------------------------------------------------------------------
-   9. Skills
-   -------------------------------------------------------------------------- */
+/* 9. Skills */
 
 .skills {
   display: grid;
@@ -653,9 +601,7 @@ label:focus-visible {
   line-height: var(--lh-snug);
 }
 
-/* --------------------------------------------------------------------------
-   10. Tags
-   -------------------------------------------------------------------------- */
+/* 10. Tags */
 
 .tags {
   display: flex;
@@ -684,9 +630,7 @@ label:focus-visible {
   background-color: var(--bg-inset);
 }
 
-/* --------------------------------------------------------------------------
-   11. Projects
-   -------------------------------------------------------------------------- */
+/* 11. Projects */
 
 .projects {
   display: grid;
@@ -711,8 +655,7 @@ label:focus-visible {
     background-color var(--dur-base) var(--ease);
 }
 
-/* A hairline that grows along the top edge on hover - the only decoration
-   on the card, and it costs one transform. */
+/* Top hairline on hover */
 .project-card::before {
   content: "";
   position: absolute;
@@ -768,9 +711,7 @@ label:focus-visible {
   margin-block-start: var(--space-6);
 }
 
-/* --------------------------------------------------------------------------
-   12. Contact
-   -------------------------------------------------------------------------- */
+/* 12. Contact */
 
 .contact {
   display: grid;
@@ -837,13 +778,11 @@ label:focus-visible {
   font-weight: 500;
   color: var(--fg);
 
-  /* Long addresses must shrink the text, never the layout. */
+  /* Long addresses wrap instead of stretching the card */
   overflow-wrap: anywhere;
 }
 
-/* --------------------------------------------------------------------------
-   13. Footer
-   -------------------------------------------------------------------------- */
+/* 13. Footer */
 
 .site-footer {
   padding-block: var(--space-6);
@@ -863,15 +802,8 @@ label:focus-visible {
   color: var(--fg-subtle);
 }
 
-.site-footer__built {
-  font-family: var(--font-mono);
-}
 
-/* --------------------------------------------------------------------------
-   14. Responsive
-   Mobile-first: the rules above are the small-screen layout, and each query
-   below only adds what the extra width makes possible.
-   -------------------------------------------------------------------------- */
+/* 14. Responsive */
 
 /* Very small phones: the brand word gives up its space to the nav. */
 @media (max-width: 29.99em) {
@@ -937,7 +869,7 @@ label:focus-visible {
   }
 }
 
-/* Wide desktops: hold the measure rather than letting lines run on. */
+/* Keep line length sane on wide screens */
 @media (min-width: 90em) {
   .skills {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -948,8 +880,7 @@ label:focus-visible {
   }
 }
 
-/* Fine-pointer devices only: hover lifts are pleasant with a mouse and
-   sticky-feeling on touch. */
+/* No hover lift on touch */
 @media (hover: none) {
   .btn:hover,
   .skill-card:hover,
@@ -960,9 +891,7 @@ label:focus-visible {
   }
 }
 
-/* --------------------------------------------------------------------------
-   15. Print - a business card should survive being printed.
-   -------------------------------------------------------------------------- */
+/* 15. Print */
 
 @media print {
   .site-header,
