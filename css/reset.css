@@ -10,6 +10,9 @@
 }
 
 html {
+  /* iOS Safari still only understands the prefixed form, and without it the
+     browser inflates text in landscape. Both are kept deliberately. */
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
