@@ -84,7 +84,7 @@
 
   /* ---- Layout ------------------------------------------------------------ */
   --container: 72rem;
-  --container-narrow: 46rem;
+  --container-narrow: 52rem;
   --gutter: clamp(1rem, 4vw, 2.5rem);
   --header-h: 4rem;
 

@@ -181,9 +181,13 @@ label:focus-visible {
   display: none;
 }
 
+/* flex-start while the row can overflow: a flex container justified to the
+   end pushes its overflow past the start edge, where it cannot be scrolled
+   back into view. From tablet up the row always fits, so end-justifying it
+   against the theme switch is safe. */
 .site-nav__list {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: var(--space-1);
   margin: 0;
 }
@@ -219,12 +223,9 @@ label:focus-visible {
 
 .theme-switch__track {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   width: 3.5rem;
   height: 1.875rem;
-  padding-inline: 0.4375rem;
   border: var(--border-thin) solid var(--border-strong);
   border-radius: var(--radius-full);
   background-color: var(--bg-subtle);
@@ -233,23 +234,17 @@ label:focus-visible {
     border-color var(--dur-base) var(--ease);
 }
 
-.theme-switch__icon {
-  position: relative;
-  z-index: 1;
-  width: 0.875rem;
-  height: 0.875rem;
-  color: var(--fg-subtle);
-  transition: color var(--dur-base) var(--ease);
-}
-
 .theme-switch__thumb {
   position: absolute;
   inset-block-start: 50%;
   inset-inline-start: 0.125rem;
+  display: grid;
+  place-items: center;
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
   background-color: var(--accent);
+  color: var(--on-accent);
   box-shadow: var(--shadow-sm);
   transform: translateY(-50%);
   transition:
@@ -257,11 +252,32 @@ label:focus-visible {
     background-color var(--dur-base) var(--ease);
 }
 
-/* Thumb sits over the sun by default and slides across to the moon when the
-   visitor flips the switch. Using inset-inline-start rather than translateX
-   means it slides the correct way in an RTL document. */
+/* Both icons occupy the same grid cell and cross-fade, so the thumb always
+   shows exactly one - the theme currently in effect. */
+.theme-switch__icon {
+  grid-area: 1 / 1;
+  width: 0.875rem;
+  height: 0.875rem;
+  transition: opacity var(--dur-base) var(--ease);
+}
+
+.theme-switch__icon--moon {
+  opacity: 0;
+}
+
+/* The thumb slides from the sun end to the moon end. inset-inline-start
+   rather than translateX means it travels the correct way in an RTL
+   document. */
 #theme-toggle:checked ~ .page .theme-switch__thumb {
   inset-inline-start: 1.875rem;
+}
+
+#theme-toggle:checked ~ .page .theme-switch__icon--sun {
+  opacity: 0;
+}
+
+#theme-toggle:checked ~ .page .theme-switch__icon--moon {
+  opacity: 1;
 }
 
 .theme-switch:hover .theme-switch__track {
@@ -404,17 +420,20 @@ label:focus-visible {
 
 .hero__name-latin {
   font-family: var(--font-mono);
+  margin-block-start: var(--space-1);
   font-size: var(--fs-md);
   font-weight: 400;
   color: var(--fg-subtle);
   letter-spacing: var(--tracking-wide);
 }
 
+/* On a phone the two halves of the role stack, and the separator - which
+   only makes sense between two items on one line - is withdrawn. */
 .hero__role {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
   margin-block-start: var(--space-4);
   font-size: var(--fs-lg);
   font-weight: 600;
@@ -425,6 +444,7 @@ label:focus-visible {
    and an RTL run is exactly the kind of thing bidi reordering moves to the
    wrong side of the line. */
 .hero__role-sep {
+  display: none;
   width: var(--border-thick);
   height: 1.25em;
   border-radius: var(--radius-full);
@@ -886,6 +906,10 @@ label:focus-visible {
   .site-header__inner {
     gap: var(--space-5);
   }
+
+  .site-nav__list {
+    justify-content: flex-end;
+  }
 }
 
 /* Laptops. */
@@ -896,6 +920,16 @@ label:focus-visible {
 
   .hero__photo {
     width: 21rem;
+  }
+
+  .hero__role {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hero__role-sep {
+    display: block;
   }
 
   .projects {
