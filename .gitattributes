@@ -1,2 +1,15 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Never let CRLF normalisation touch binary assets
+*.woff2 binary
+*.jpg   binary
+*.png   binary
+*.ico   binary
+
+# Web sources keep LF in the repository
+*.html  text eol=lf
+*.css   text eol=lf
+*.svg   text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf

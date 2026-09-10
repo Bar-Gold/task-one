@@ -1,0 +1,15 @@
+# Node tooling (validation only - the site itself ships no JavaScript)
+node_modules/
+
+# Build artefacts
+dist/
+*.zip
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini

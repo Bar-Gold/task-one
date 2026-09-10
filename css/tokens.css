@@ -1,0 +1,229 @@
+/* ==========================================================================
+   tokens.css - the single source of truth for the design system.
+
+   Nothing in style.css hard-codes a colour, a size or a duration; every
+   value below is referenced through a custom property. That is what keeps
+   the light and dark themes genuinely consistent instead of merely similar.
+   ========================================================================== */
+
+:root {
+  /* ---- Raw palette -------------------------------------------------------
+     Theme-independent ingredients. The semantic tokens further down decide
+     which of these a given theme actually uses. */
+  --ink-950: #080d18;
+  --ink-900: #0f172a;
+  --ink-850: #16203a;
+  --ink-800: #1b2336;
+  --ink-750: #212c44;
+  --ink-700: #272f42;
+  --ink-600: #3d4861;
+  --ink-500: #64748b;
+  --ink-400: #94a3b8;
+  --ink-300: #cbd5e1;
+  --ink-200: #e2e8f0;
+  --ink-150: #eaeff5;
+  --ink-100: #eef2f7;
+  --ink-50: #f8fafc;
+  --white: #fff;
+  --slate-600: #475569;
+
+  --green-800: #14532d;
+  --green-700: #15803d;
+  --green-600: #16a34a;
+  --green-500: #22c55e;
+  --green-400: #4ade80;
+  --green-300: #86efac;
+
+  /* ---- Typography --------------------------------------------------------
+     Two families: IBM Plex Sans Hebrew carries the Hebrew UI, JetBrains Mono
+     marks anything that is literally a piece of technology. */
+  --font-sans: "IBM Plex Sans Hebrew", "Segoe UI", "Noto Sans Hebrew", arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", consolas, monospace;
+
+  /* Fluid scale - every step interpolates between its mobile and desktop
+     size, so intermediate widths are handled too, not just the breakpoints. */
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.875rem;
+  --fs-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --fs-md: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --fs-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --fs-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --fs-2xl: clamp(1.75rem, 1.45rem + 1.5vw, 2.5rem);
+  --fs-3xl: clamp(2.125rem, 1.55rem + 2.9vw, 3.75rem);
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.35;
+  --lh-normal: 1.6;
+  --lh-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.12em;
+
+  /* ---- Spacing - 4/8pt scale -------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --section-y: clamp(3.5rem, 8vw, 6.5rem);
+
+  /* ---- Shape ------------------------------------------------------------- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 62.5rem;
+
+  --border-thin: 1px;
+  --border-thick: 2px;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --container: 72rem;
+  --container-narrow: 46rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --header-h: 4rem;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 420ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   THEMING
+
+   The page has two complete colour schemes. Which one you get is decided in
+   two steps:
+
+     1. The operating system preference supplies the default.
+     2. The toggle in the header inverts that default.
+
+   Step 2 is what the blocks below encode: the checked state maps to the dark
+   set when the OS asked for light, and to the light set when the OS asked
+   for dark. So the button always genuinely flips the theme, whatever the
+   visitor machine is set to - and it does so with no JavaScript at all.
+   ========================================================================== */
+
+/* --- 1. Light: the default ------------------------------------------------ */
+:root {
+  --bg: var(--ink-50);
+  --bg-elev: var(--white);
+  --bg-subtle: var(--ink-100);
+  --bg-inset: var(--ink-150);
+  --fg: var(--ink-900);
+  --fg-muted: var(--slate-600);
+  --fg-subtle: var(--ink-500);
+  --border: var(--ink-200);
+  --border-strong: var(--ink-300);
+  --accent: var(--green-600);
+  --accent-hover: var(--green-700);
+  --accent-text: var(--green-700);
+  --on-accent: var(--ink-900);
+  --ring: var(--green-700);
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%), 0 1px 3px rgb(15 23 42 / 4%);
+  --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 6%);
+  --shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 14%), 0 4px 8px -4px rgb(15 23 42 / 8%);
+  --glow: 0 0 0 rgb(0 0 0 / 0%);
+  --hero-wash: radial-gradient(60% 55% at 78% 8%, rgb(34 197 94 / 12%) 0%, transparent 68%);
+  --grid-line: rgb(15 23 42 / 5%);
+
+  color-scheme: light;
+}
+
+/* --- 2. Dark: when the OS asks for it ------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--ink-950);
+    --bg-elev: var(--ink-850);
+    --bg-subtle: var(--ink-800);
+    --bg-inset: var(--ink-750);
+    --fg: var(--ink-50);
+    --fg-muted: var(--ink-300);
+    --fg-subtle: var(--ink-400);
+    --border: var(--ink-700);
+    --border-strong: var(--ink-600);
+    --accent: var(--green-500);
+    --accent-hover: var(--green-400);
+    --accent-text: var(--green-400);
+    --on-accent: var(--ink-950);
+    --ring: var(--green-400);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+    --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 50%);
+    --shadow-lg: 0 16px 32px -12px rgb(0 0 0 / 65%);
+    --glow: 0 0 24px -6px rgb(34 197 94 / 45%);
+    --hero-wash: radial-gradient(60% 55% at 78% 8%, rgb(34 197 94 / 16%) 0%, transparent 68%);
+    --grid-line: rgb(148 163 184 / 8%);
+
+    color-scheme: dark;
+  }
+}
+
+/* --- 3. The toggle inverts whichever default applied ---------------------- */
+#theme-toggle:checked ~ .page {
+  --bg: var(--ink-950);
+  --bg-elev: var(--ink-850);
+  --bg-subtle: var(--ink-800);
+  --bg-inset: var(--ink-750);
+  --fg: var(--ink-50);
+  --fg-muted: var(--ink-300);
+  --fg-subtle: var(--ink-400);
+  --border: var(--ink-700);
+  --border-strong: var(--ink-600);
+  --accent: var(--green-500);
+  --accent-hover: var(--green-400);
+  --accent-text: var(--green-400);
+  --on-accent: var(--ink-950);
+  --ring: var(--green-400);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 50%);
+  --shadow-lg: 0 16px 32px -12px rgb(0 0 0 / 65%);
+  --glow: 0 0 24px -6px rgb(34 197 94 / 45%);
+  --hero-wash: radial-gradient(60% 55% at 78% 8%, rgb(34 197 94 / 16%) 0%, transparent 68%);
+  --grid-line: rgb(148 163 184 / 8%);
+}
+
+@media (prefers-color-scheme: dark) {
+  #theme-toggle:checked ~ .page {
+    --bg: var(--ink-50);
+    --bg-elev: var(--white);
+    --bg-subtle: var(--ink-100);
+    --bg-inset: var(--ink-150);
+    --fg: var(--ink-900);
+    --fg-muted: var(--slate-600);
+    --fg-subtle: var(--ink-500);
+    --border: var(--ink-200);
+    --border-strong: var(--ink-300);
+    --accent: var(--green-600);
+    --accent-hover: var(--green-700);
+    --accent-text: var(--green-700);
+    --on-accent: var(--ink-900);
+    --ring: var(--green-700);
+    --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%), 0 1px 3px rgb(15 23 42 / 4%);
+    --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 6%);
+    --shadow-lg: 0 12px 24px -8px rgb(15 23 42 / 14%), 0 4px 8px -4px rgb(15 23 42 / 8%);
+    --glow: 0 0 0 rgb(0 0 0 / 0%);
+    --hero-wash: radial-gradient(60% 55% at 78% 8%, rgb(34 197 94 / 12%) 0%, transparent 68%);
+    --grid-line: rgb(15 23 42 / 5%);
+  }
+}
+
+/* --- 4. Keep the UA in step with the live theme ---------------------------
+   Scrollbars, form controls and the canvas behind the page follow
+   color-scheme. :has() is a progressive enhancement: without it the page is
+   still fully themed by the rules above, only the browser chrome lags. */
+:root:has(#theme-toggle:checked) {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:has(#theme-toggle:checked) {
+    color-scheme: light;
+  }
+}
