@@ -17,15 +17,21 @@
 ## מבנה הפרויקט
 
 ```
-├── index.html          העמוד כולו — RTL, תגיות סמנטיות, ללא עיצוב פנימי
+├── index.html              העמוד כולו — RTL, תגיות סמנטיות, ללא עיצוב פנימי
+├── README.md               הקובץ הזה
 ├── css/
-│   ├── reset.css       איפוס בסיסי
-│   ├── tokens.css      מערכת העיצוב: צבעים, טיפוגרפיה, מרווחים + שתי ערכות נושא
-│   └── style.css       פריסה ורכיבים
-├── assets/
-│   ├── profile.jpg     תמונת פרופיל (800px) + profile-large.jpg (1200px)
-│   ├── favicon.svg
-│   └── fonts/          IBM Plex Sans Hebrew + JetBrains Mono (OFL 1.1)
+│   ├── reset.css           איפוס בסיסי
+│   ├── tokens.css          מערכת העיצוב: צבעים, טיפוגרפיה, מרווחים + שתי ערכות נושא
+│   └── style.css           פריסה ורכיבים
+└── assets/
+    ├── profile.jpg         תמונת פרופיל, 800×800
+    ├── profile-large.jpg   אותה תמונה ב-1200×1200, עבור srcset
+    ├── favicon.svg
+    └── fonts/
+        ├── fonts.css       הגדרות @font-face
+        ├── plex-*.woff2    IBM Plex Sans Hebrew (עברית + לטינית, 4 משקלים)
+        ├── mono-latin.woff2  JetBrains Mono (משתנה, 400–700)
+        └── OFL.txt         רישיון הגופנים — SIL Open Font License 1.1
 ```
 
 (כלי הבדיקה נמצאים בענף `tooling` בלבד.)
