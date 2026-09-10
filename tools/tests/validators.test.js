@@ -5,13 +5,15 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { join } from "node:path";
-import { HtmlValidate, formatterFactory } from "html-validate";
+import { HtmlValidate, FileSystemConfigLoader, formatterFactory } from "html-validate";
 import stylelint from "stylelint";
 import { ROOT, cssFiles } from "./helpers.js";
 
 describe("HTML תקין", () => {
   test("index.html passes html-validate with no errors", async () => {
-    const validator = new HtmlValidate();
+    // FileSystemConfigLoader makes the test read .htmlvalidate.json, so it
+    // and the `html-validate` CLI answer to exactly the same rule set.
+    const validator = new HtmlValidate(new FileSystemConfigLoader());
     const report = await validator.validateFile(join(ROOT, "index.html"));
     const format = formatterFactory("text");
     assert.ok(report.valid, `html-validate reported problems:\n${format(report.results)}`);
