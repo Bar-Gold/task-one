@@ -1,4 +1,5 @@
-# Node tooling (validation only - the site itself ships no JavaScript)
+# Node modules, should anyone run npm here. The validation tooling itself
+# lives on the `tooling` branch; this branch is the site and nothing else.
 node_modules/
 
 # Build artefacts

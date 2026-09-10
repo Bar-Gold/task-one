@@ -10,24 +10,31 @@
 
 האתר כולו — כולל **המעבר בין מצב כהה למצב בהיר** — ממומש ב־HTML ו־CSS בלבד, כנדרש במטלה.
 
-תיקיית `tools/` מכילה כלי בדיקה בלבד (Node.js). היא **אינה חלק מהאתר**, אינה נטענת על ידי הדפדפן ואינה נכללת בקובץ ה־ZIP להגשה. אחת הבדיקות סורקת את עץ הקבצים ומוודאת שאף קובץ `.js` אינו נשלח עם האתר.
+ענף `main` — זה שמתפרסם ב־GitHub Pages וזה שרואים כאן — **אינו מכיל אף קובץ JavaScript**. כלי הבדיקה יושבים בענף נפרד בשם [`tooling`](https://github.com/Bar-Gold/task-one/tree/tooling), כדי שלא יתערבבו עם קוד האתר.
 
 ---
 
 ## מבנה הפרויקט
 
 ```
-├── index.html          העמוד כולו — RTL, תגיות סמנטיות, ללא עיצוב פנימי
+├── index.html              העמוד כולו — RTL, תגיות סמנטיות, ללא עיצוב פנימי
+├── README.md               הקובץ הזה
 ├── css/
-│   ├── reset.css       איפוס בסיסי
-│   ├── tokens.css      מערכת העיצוב: צבעים, טיפוגרפיה, מרווחים + שתי ערכות נושא
-│   └── style.css       פריסה ורכיבים
-├── assets/
-│   ├── profile.jpg     תמונת פרופיל (800px) + profile-large.jpg (1200px)
-│   ├── favicon.svg
-│   └── fonts/          IBM Plex Sans Hebrew + JetBrains Mono (OFL 1.1)
-└── tools/              כלי בדיקה בלבד — לא חלק מהאתר
+│   ├── reset.css           איפוס בסיסי
+│   ├── tokens.css          מערכת העיצוב: צבעים, טיפוגרפיה, מרווחים + שתי ערכות נושא
+│   └── style.css           פריסה ורכיבים
+└── assets/
+    ├── profile.jpg         תמונת פרופיל, 800×800
+    ├── profile-large.jpg   אותה תמונה ב-1200×1200, עבור srcset
+    ├── favicon.svg
+    └── fonts/
+        ├── fonts.css       הגדרות @font-face
+        ├── plex-*.woff2    IBM Plex Sans Hebrew (עברית + לטינית, 4 משקלים)
+        ├── mono-latin.woff2  JetBrains Mono (משתנה, 400–700)
+        └── OFL.txt         רישיון הגופנים — SIL Open Font License 1.1
 ```
+
+(כלי הבדיקה נמצאים בענף `tooling` בלבד.)
 
 ---
 
@@ -71,7 +78,10 @@
 
 ## בדיקות
 
+הבדיקות נמצאות בענף `tooling`, יחד עם עותק של האתר:
+
 ```bash
+git checkout tooling
 cd tools
 npm install
 npm test
@@ -89,8 +99,18 @@ npm test
 בדיקות נוספות זמינות בנפרד:
 
 ```bash
-npm run lint:html
-npm run lint:css
+npm run lint:html    # html-validate
+npm run lint:css     # stylelint
+npm run zip          # בונה מחדש את קובץ ההגשה
+```
+
+לאחר עריכת תוכן ב־`main`, מסנכרנים את ענף הבדיקות כך — מעתיקים רק את קבצי
+האתר, בלי לגעת ב־`tools/`:
+
+```bash
+git checkout tooling
+git checkout main -- index.html css assets README.md
+cd tools && npm test
 ```
 
 ---
