@@ -736,7 +736,7 @@ label:focus-visible {
     background-color var(--dur-base) var(--ease);
 }
 
-.contact__link:hover {
+a.contact__link:hover {
   transform: translateY(-0.125rem);
   border-color: var(--accent);
   box-shadow: var(--shadow-md);
